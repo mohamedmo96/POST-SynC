@@ -37,6 +37,7 @@ namespace vRootProject
               options.UseMySql(builder.Configuration.GetConnectionString("MySqlConnection"),
                   new MySqlServerVersion(new Version(8, 0, 23))));
 
+
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();

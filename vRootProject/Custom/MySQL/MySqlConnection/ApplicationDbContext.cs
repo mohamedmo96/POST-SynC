@@ -20,7 +20,7 @@ public class ApplicationDbContext : DbContext
 
 
 
-   // public DbSet<ProductMySql> Product { get; set; }
+    public DbSet<ProductMySql> Products { get; set; }
     public DbSet<BranchMy> branch { get; set; }
     public DbSet<Employee> employee { get; set; }
     public DbSet<Buddies> buddies { get; set; }

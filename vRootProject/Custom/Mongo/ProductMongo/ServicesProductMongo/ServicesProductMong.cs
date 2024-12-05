@@ -20,11 +20,6 @@ namespace vRootProject.Custom.Mongo.ProductMongoFile.ServicesProductMongo
         }
 
 
-
-
-
-
-
         // SetInMongo
         public async Task CreateMongoProductAsync(ProductMong newProduct) =>
         await _mongoProducts.InsertOneAsync(newProduct);

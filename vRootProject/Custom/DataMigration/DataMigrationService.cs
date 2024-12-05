@@ -1,14 +1,18 @@
-﻿using vRootProject.Custom.Mongo.EmployeeShiftMongo.EmployeeShiftMongoModel;
+﻿using CoreLayer.Models.ProductTechnology;
+using vRootProject.Custom.Mongo.EmployeeShiftMongo.EmployeeShiftMongoModel;
+using vRootProject.Custom.Mongo.ProductMongo.ProductModelMongo;
 using vRootProject.Custom.Mongo.ProductMongoFile.ProductsSrveise;
 using vRootProject.Custom.Mongo.ProductMongoFile.ServicesBranch;
 using vRootProject.Custom.Mongo.ProductMongoFile.ServicesBuddies;
 using vRootProject.Custom.Mongo.ProductMongoFile.ServicesEmployee;
 using vRootProject.Custom.Mongo.ProductMongoFile.ServicesEmployeeShift;
+using vRootProject.Custom.Mongo.ProductMongoFile.ServicesProductMongo;
 using vRootProject.Custom.Mongo.ProductMongoFile.TransactionFlowSrveise;
 using vRootProject.Custom.Mongo.ProductsMongo.ProductsMongoModel;
 using vRootProject.Custom.Mongo.ProductVarintMongo.ProductVarintMongoModel;
 using vRootProject.Custom.MySQL.BranchMysql.BranchServiceMysql;
 using vRootProject.Custom.MySQL.EmployeeShiftMysql.EmployeeShiftServiceMysql;
+using vRootProject.Custom.MySQL.ProductMysql.ProductServiceMysql;
 using vRootProject.Custom.MySQL.ProductsMysql.ProductsServiceMysql;
 
 namespace vRootProject.Custom.DataMigration
@@ -16,6 +20,8 @@ namespace vRootProject.Custom.DataMigration
     public class DataMigrationService
     {
         private readonly BranchServiceMysqlService _productServiceSQL;
+        private readonly ProductServiceMysq productsq;
+        private readonly ServicesProductMong mongpro;
         private readonly ServicesBranchMongo _productServiceMongo;
         private readonly EmpServiceMysqlService empService;
         private readonly ServicesEmployeeMongo employeeMongo;
@@ -35,6 +41,7 @@ namespace vRootProject.Custom.DataMigration
         private readonly TransactionFlowServiceMysqlService transactionFlow;
 
         public DataMigrationService(BranchServiceMysqlService productServiceMySql,
+            ProductServiceMysq productsq , ServicesProductMong mongpro , 
             ServicesBranchMongo productServiceMongo, EmpServiceMysqlService empService,
             ServicesEmployeeMongo employeeMongo, BuddiesServiceMysqlService buddiesService, ServicesBuddiesMongo buddiesMongo,
             ServicesEmployeeShiftMongo employeeShiftMongo, EmployeeShiftServiceMysqlService mysqlService,
@@ -46,6 +53,8 @@ namespace vRootProject.Custom.DataMigration
             )
         {
             _productServiceSQL = productServiceMySql;
+            this.productsq = productsq;
+            this.mongpro = mongpro;
             _productServiceMongo = productServiceMongo;
             this.empService = empService;
             this.employeeMongo = employeeMongo;
@@ -68,6 +77,7 @@ namespace vRootProject.Custom.DataMigration
         public async Task MigrateDataAsync()
         {
             //   var Branch = await _productServiceSQL.GetMySqlProductsAsync();
+              var Branch = await productsq.GetMySqlProductsAsync();
             //var mysqlEmp = await empService.GetMySqlModelAsync();
             //  var mysqlEmpShift = await mysqlService.GetMySqlModelAsync();
             // var mysqlProducts = await productsService.GetMySqlModelAsync();
@@ -75,8 +85,19 @@ namespace vRootProject.Custom.DataMigration
             //  var mysqlProductsV = await productVarintService.GetMySqlModelAsync();
             // var mysqlBuddies = await buddiesService.GetMySqlModelAsync();
             //var mysqlinvoice = await invoiceService.GetMySqlModelAsync();
-            // var mysqlinvoiceDetails = await invoiceDetailsServiceMysql.GetMySqlModelAsync();
+            //var mysqlinvoiceDetails = await invoiceDetailsServiceMysql.GetMySqlModelAsync();
             //      var mysqlTransactionFlow = await transactionFlow.GetMySqlModelAsync();
+
+            var mongoProduct = Branch.Select(b => new ProductMong
+            {
+                Name = b.Name,
+                Description=b.Description,
+                Price=b.Price,
+                Category=b.Category,
+                InStock=b.InStock
+              
+             
+            }).ToList();
 
             // var mongoBranch = Branch.Select(b => new Branch
             //{
@@ -533,7 +554,10 @@ namespace vRootProject.Custom.DataMigration
             //}).ToList();
 
 
-
+            foreach (var item in mongoProduct)
+            {
+                await mongpro.CreateMongoProductAsync(item);
+            }
             //foreach (var item in mongoBranch)
             //{
             //    await _productServiceMongo.CreateMongoProductAsync(item);
@@ -572,6 +596,7 @@ namespace vRootProject.Custom.DataMigration
             //}
 
         }
+
     }
 
 

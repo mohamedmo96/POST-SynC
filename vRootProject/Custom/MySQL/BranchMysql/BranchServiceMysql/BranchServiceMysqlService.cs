@@ -37,7 +37,7 @@ namespace vRootProject.Custom.MySQL.BranchMysql.BranchServiceMysql
         //                InStock = newProduct.InStock
         //            };
 
-        //            await _mongoProducts.InsertOneAsync(mongoProduct);
+        //            await _mongoProducts.InsertOneAsync(moqngoProduct);
 
         //            await transaction.CommitAsync();
         //        }
