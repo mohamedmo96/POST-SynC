@@ -7,17 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Abstract\**" />
-    <Compile Remove="CustomAbstract\**" />
-    <Content Remove="Abstract\**" />
-    <Content Remove="CustomAbstract\**" />
-    <EmbeddedResource Remove="Abstract\**" />
-    <EmbeddedResource Remove="CustomAbstract\**" />
-    <None Remove="Abstract\**" />
-    <None Remove="CustomAbstract\**" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Hangfire" Version="1.8.17" />
     <PackageReference Include="Hangfire.AspNetCore" Version="1.8.17" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.18" />
@@ -47,6 +36,8 @@
     <Folder Include="Custom\MySQL\EmployeeMysql\RepositoryProductMySql\" />
     <Folder Include="Custom\MySQL\BranchMysql\RepositoryProductMySql\" />
     <Folder Include="Custom\MySQL\ProductMysql\RepositoryProductMySql\" />
+    <Folder Include="CustomAbstract\" />
+    <Folder Include="Abstract\" />
   </ItemGroup>
 
 </Project>
